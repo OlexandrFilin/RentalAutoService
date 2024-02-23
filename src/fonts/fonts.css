@@ -1,0 +1,23 @@
+/* Monrope Regular (400) */
+@font-face {
+    font-family: 'Monrope';
+    font-style: normal;
+    font-weight: 400;
+    src: url('.woff') format('woff');
+  }
+  
+  /* Monrope Medium (500) */
+  @font-face {
+    font-family: 'Monrope';
+    font-style: normal;
+    font-weight: 500;
+    src: url('.woff') format('woff');
+  }
+  
+  /* Monrope Semi-Bold (600) */
+  @font-face {
+    font-family: 'Monrope';
+    font-style: normal;
+    font-weight: 600;
+    src: url('.woff') format('woff');
+  }
