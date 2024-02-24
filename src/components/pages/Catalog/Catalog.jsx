@@ -3,12 +3,15 @@ import { ContainerPage, LoadMoreBtn, WrapperCards } from './Catalog.styled';
 
 import { getAllCars } from 'services/getCars';
 import Card from 'components/card/Card';
+import ModalAbout from 'components/ModalAbout/modalAbout';
 //сторінка, що завантажуєтсья
 
 const Catalog = () => {
   const [carsList, setCars] = useState([]);
   const [page, setpage] = useState(1);
   const [loader, setLoader] = useState(false);
+  const [isShowModal, setShowModal] = useState(false);
+  let choiseCard = {};
   const addFildFavorites = data => {
     return data.map(car => {
       const cars = JSON.parse(localStorage.getItem('cars'));
@@ -83,19 +86,35 @@ const Catalog = () => {
       })
     );
   };
-  const hanlerLearnMore = id => {};
-
+  const hanlerLearnMore = id => {
+    carsList.map(car => {
+      if (car.id === id) {
+        setShowModal(true);
+        choiseCard = {...car};
+        return car;
+      }
+      return null;
+    });
+  };
+const closeLearnMore = ()=>{
+  setShowModal(false);
+}
   return loader ? (
     <div>Завантаження ....</div>
   ) : (
     <ContainerPage>
+      {isShowModal && (
+        <ModalAbout carCard={{...choiseCard}} LernMore={hanlerLearnMore} closeLearnMore = {closeLearnMore}/>
+      )}
       <WrapperCards>
         {carsList.map(car => {
           return (
             <Card
+              key = {car.id}
               handleToggle={handleToggle}
               car={car}
               hanlerLearnMore={hanlerLearnMore}
+              closeLearnMore={closeLearnMore}
             />
           );
         })}

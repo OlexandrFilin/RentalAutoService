@@ -12,8 +12,9 @@ import {
   AddresParagr,
   LearnMoreBtn,
 } from './Card.styled';
+import { limitLengthModel, parseAddress } from 'services/parseDataCard';
 
-const Card = ({ car, handleToggle, hanlerLearnMore }) => {
+const Card = ({ car, handleToggle, hanlerLearnMore, closeLearnMore }) => {
   const {
     id,
     isFavorite,
@@ -27,53 +28,10 @@ const Card = ({ car, handleToggle, hanlerLearnMore }) => {
     year,
     engineSize,
   } = car;
-
-  const parseAddress = addressString => {
-    const arrayWords = addressString.split(',');
-    if (arrayWords.length === 3) {
-      return {
-        country: arrayWords[arrayWords.length - 1],
-        city: arrayWords[arrayWords.length - 2],
-        street: arrayWords[arrayWords.length - 3],
-      };
-    }
-    return {
-      country: arrayWords[arrayWords.length - 1],
-      city: 'XXXXX',
-      street: 'XXXXX',
-    };
-  };
-  const objAddress = parseAddress(address);
+  //витягуємо з рядка адреси країну та місто
+    const objAddress = parseAddress(address);
   //щоб не ломався рядок опису авто, лімітуємо сумарну довжину виробник + модель
-  const limitLengthModel = (modelStr, makeStr) => {
-    // console.log('modelStr ', modelStr)
-    // console.log('modelStr.length ', modelStr.length )
-    // console.log('makeStr ', makeStr)
-    // console.log('makeStr.length',  makeStr.length)
-    // console.log('model.length + makeStr.length', modelStr.length + makeStr.length)
-    if ((modelStr.length + makeStr.length) < 19) {
-       return {
-        model,
-        make,
-      };
-    } else if (modelStr.length < 16) {
-      console.log('modelStr.length < 16', modelStr.length)
-
-      return {
-        model,
-        make: makeStr.slice(0, 19 - modelStr.length),
-      };
-    } else {
-      return {
-        model,
-        make:""
-      };
-    }
-  };
-   console.log('id', id)
-  
-  const typeModel = limitLengthModel(model,make);
- console.log('typeModel', typeModel)
+  const typeModel = limitLengthModel(model, make);
   return (
     <ContainerCard key={id}>
       {isFavorite ? (
@@ -117,7 +75,7 @@ const Card = ({ car, handleToggle, hanlerLearnMore }) => {
         {` ${engineSize} `}
       </AddresParagr>
 
-      <LearnMoreBtn onClick={hanlerLearnMore(id)}>Learn More</LearnMoreBtn>
+      <LearnMoreBtn onClick={()=>{hanlerLearnMore(id)}}   >Learn More</LearnMoreBtn>
     </ContainerCard>
   );
 };
