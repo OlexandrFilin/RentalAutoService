@@ -14,7 +14,7 @@ import {
 } from './Card.styled';
 import { limitLengthModel, parseAddress } from 'services/parseDataCard';
 
-const Card = ({ car, handleToggle, hanlerLearnMore, closeLearnMore }) => {
+const Card = ({ car, handleToggle, hanlerLearnMore}) => {
   const {
     id,
     isFavorite,
@@ -48,15 +48,11 @@ const Card = ({ car, handleToggle, hanlerLearnMore, closeLearnMore }) => {
       <AboutCarParagr>
         <AboutCarSpan>
           {`${typeModel.make} `}
-
           <ModelCarSpan>{`${typeModel.model}`}</ModelCarSpan>
-
           {`, ${year}`}
         </AboutCarSpan>
-
         <RentalPriceSpan>{`${rentalPrice}`}</RentalPriceSpan>
       </AboutCarParagr>
-
       <AddresParagr>
         {` ${objAddress.city} `}
         <Separator />

@@ -11,7 +11,7 @@ const Catalog = () => {
   const [page, setpage] = useState(1);
   const [loader, setLoader] = useState(false);
   const [isShowModal, setShowModal] = useState(false);
-  let choiseCard = {};
+  const [choiseCard, setChoiseCard] = useState({});
   const addFildFavorites = data => {
     return data.map(car => {
       const cars = JSON.parse(localStorage.getItem('cars'));
@@ -87,15 +87,13 @@ const Catalog = () => {
     );
   };
   const hanlerLearnMore = id => {
-    carsList.map(car => {
-      if (car.id === id) {
-        setShowModal(true);
-        choiseCard = {...car};
-        return car;
-      }
-      return null;
-    });
+    const chosenCar = carsList.find(car => car.id === id);
+    if (chosenCar) {
+      setChoiseCard(chosenCar);
+      setShowModal(true);
+    }
   };
+  
 const closeLearnMore = ()=>{
   setShowModal(false);
 }

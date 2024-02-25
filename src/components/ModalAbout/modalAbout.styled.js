@@ -12,12 +12,13 @@ export const BackdropModal = styled.div`
   //backdrop-filter: blur(2px);
   z-index: 100;
   transition-property: opacity, visibility;
-  transition-duration: 250ms;
+  transition-duration: 1250ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: scroll;
 `;
 
 export const ContainerModal = styled.div`
+  padding: 40px;
   position: absolute;
   border-radius: 24px;
   width: 541px;
@@ -26,7 +27,6 @@ export const ContainerModal = styled.div`
   top: calc(50%);
   left: calc(50%);
   transform: translateY(-50%) translateX(-50%);
-
 `;
 
 export const CrossCloseModal = styled(MdClose)`
@@ -41,10 +41,8 @@ export const ImgCar = styled.img`
   border-radius: 14px;
   width: 461px;
   height: 248px;
-
   background: #f3f3f2;
-  margin-top: 40px;
-  margin-left: auto;
-  margin-right: auto;
+   /* margin-left: auto;
+  margin-right: auto; */
   margin-bottom: 14px;
 `;

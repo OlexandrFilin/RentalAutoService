@@ -6,14 +6,17 @@ import {
   ImgCar,
 } from './modalAbout.styled';
 
+import AboutCar from './AboutCar/aboutCar';
+
 const ModalAbout = ({ carCard, closeLearnMore }) => {
-  console.log('caeCard', carCard)
   const { img, model } = carCard;
+
   return (
     <BackdropModal>
       <ContainerModal>
-        <CrossCloseModal onClick={closeLearnMore}/>
+        <CrossCloseModal onClick={closeLearnMore} />
         <ImgCar src={img} alt={model} />
+        <AboutCar carCard={carCard} />
       </ContainerModal>
     </BackdropModal>
   );
