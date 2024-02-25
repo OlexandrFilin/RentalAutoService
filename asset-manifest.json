@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/RentalAutoService/static/css/main.cd2e038f.css",
-    "main.js": "/RentalAutoService/static/js/main.db2621e7.js",
+    "main.js": "/RentalAutoService/static/js/main.cd1452c9.js",
     "static/media/travel2.jpg": "/RentalAutoService/static/media/travel2.716d29ffab41cc684340.jpg",
     "index.html": "/RentalAutoService/index.html",
     "static/media/separator.svg": "/RentalAutoService/static/media/separator.ec42342a50b3460b2725d5fc2b523fdd.svg",
     "main.cd2e038f.css.map": "/RentalAutoService/static/css/main.cd2e038f.css.map",
-    "main.db2621e7.js.map": "/RentalAutoService/static/js/main.db2621e7.js.map"
+    "main.cd1452c9.js.map": "/RentalAutoService/static/js/main.cd1452c9.js.map"
   },
   "entrypoints": [
     "static/css/main.cd2e038f.css",
-    "static/js/main.db2621e7.js"
+    "static/js/main.cd1452c9.js"
   ]
 }
