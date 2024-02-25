@@ -15,7 +15,7 @@ const ModalAbout = ({ carCard, closeLearnMore }) => {
   });
   useEffect(() => {
     return () => {
-      console.log('222', 222)
+
       window.removeEventListener('keydown', handleCloseEscape);
     };
   });
@@ -24,7 +24,7 @@ const ModalAbout = ({ carCard, closeLearnMore }) => {
     if (e.code === 'Escape') closeLearnMore();
   };
   return (
-    <BackdropModal>
+    <BackdropModal onClick={closeLearnMore} >
       <ContainerModal>
         <CrossCloseModal onClick={closeLearnMore} />
         <ImgCar src={img} alt={model} />
