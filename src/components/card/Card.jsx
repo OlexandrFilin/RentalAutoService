@@ -14,7 +14,7 @@ import {
 } from './Card.styled';
 import { limitLengthModel, parseAddress } from 'services/parseDataCard';
 
-const Card = ({ car, handleToggle, hanlerLearnMore}) => {
+const Card = ({ car, handleToggle, handlerLearnMore}) => {
   const {
     id,
     isFavorite,
@@ -71,7 +71,7 @@ const Card = ({ car, handleToggle, hanlerLearnMore}) => {
         {` ${engineSize} `}
       </AddresParagr>
 
-      <LearnMoreBtn onClick={()=>{hanlerLearnMore(id)}}   >Learn More</LearnMoreBtn>
+      <LearnMoreBtn onClick={()=>{handlerLearnMore(id)}}   >Learn More</LearnMoreBtn>
     </ContainerCard>
   );
 };

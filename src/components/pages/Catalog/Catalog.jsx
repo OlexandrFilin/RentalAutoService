@@ -13,11 +13,11 @@ const Catalog = () => {
   const [loader, setLoader] = useState(false);
   const [isShowModal, setShowModal] = useState(false);
   const [choiseCard, setChoiseCard] = useState({});
+  const [filter, setFilter] = useState({ brand: '' });
 
   const addFildFavorites = data => {
     return data.map(car => {
       const cars = JSON.parse(localStorage.getItem('cars'));
-
       if (cars) {
         const findCar = cars.find(elem => elem.id === car.id);
         if (findCar) {
@@ -27,23 +27,55 @@ const Catalog = () => {
       return { ...car, isFavorite: false };
     });
   };
+
   useEffect(() => {
     async function fetchData() {
       try {
         setLoader(true);
-        await getAllCars(page).then(data => {
-          //Додаємо до елементів масиву поле isFavorites З данними localctorage
-          const carsWithFavorites = addFildFavorites(data);
-          setCars(carsWithFavorites);
-        });
+        const data = await getAllCars(page);
+        const carsWithFavorites = addFildFavorites(data);
+        setCars(carsWithFavorites);
       } catch (error) {
-        console.log('error', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoader(false);
       }
     }
     fetchData();
   }, [page]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (filter.brand) {
+          setLoader(true);
+          const data = await getAllCars();
+          let filteredArray = data;
+          filteredArray = data.filter(elem => elem.make === filter.brand);
+          const carsWithFavorites = addFildFavorites(filteredArray);
+          setCars(carsWithFavorites);
+        } else {
+          //якщо фільтр не встановлено, завантажуємо  сторінку повністю
+          try {
+            setLoader(true);
+            const data = await getAllCars(page);
+            const carsWithFavorites = addFildFavorites(data);
+            setCars(carsWithFavorites);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          } finally {
+            setLoader(false);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoader(false);
+      }
+    }
+    fetchData();
+  }, [filter, page]);
+
   //якщо білше закінчуютья авто в базі перекидаємо на першу сторінку
   const hanlerLoadMore = () => {
     page + 1 < 4 ? setpage(page + 1) : setpage(1);
@@ -99,9 +131,13 @@ const Catalog = () => {
   const closeLearnMore = () => {
     setShowModal(false);
   };
+  const handleSetFilter = newfilter => {
+    console.log('newfilter', newfilter);
+    setFilter(newfilter);
+  };
   return (
     <>
-      <FilterForm />
+      <FilterForm handleSetFilter={handleSetFilter} />
       {loader ? (
         <div>Завантаження ....</div>
       ) : (
@@ -109,7 +145,7 @@ const Catalog = () => {
           {isShowModal && (
             <ModalAbout
               carCard={{ ...choiseCard }}
-              LernMore={hanlerLearnMore}
+             // LernMore={hanlerLearnMore}
               closeLearnMore={closeLearnMore}
             />
           )}
@@ -120,7 +156,7 @@ const Catalog = () => {
                   key={car.id}
                   handleToggle={handleToggle}
                   car={car}
-                  hanlerLearnMore={hanlerLearnMore}
+                  handlerLearnMore={hanlerLearnMore}
                   closeLearnMore={closeLearnMore}
                 />
               );
@@ -134,4 +170,3 @@ const Catalog = () => {
 };
 
 export default Catalog;
-

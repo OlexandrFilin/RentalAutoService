@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const AboutCarParagr = styled.p`
+export const AboutCarParagr = styled.div`
   width: 461px;
   //height: 24px;
   font-family: 'Manrope', sans-serif;

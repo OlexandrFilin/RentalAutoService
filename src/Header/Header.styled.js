@@ -10,7 +10,7 @@ export const NavLinkHeader = styled(NavLink)`
 
   display: inline-block;
   text-decoration: none;
-  padding: 12px;
+  padding: 24px;
   font-weight: 700;
   color: #2a363b;
 
