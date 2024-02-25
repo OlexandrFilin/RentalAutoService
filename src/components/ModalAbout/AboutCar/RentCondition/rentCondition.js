@@ -1,4 +1,5 @@
 import React from 'react';
+import numeral from 'numeral';
 import {
   RentConditValue,
   RentConditionCallBtn,
@@ -8,11 +9,12 @@ import {
   RentConditionWrap,
 } from './rentCondition.styled';
 import { parseRentalCondition } from 'services/parseDataCard';
-const phoneNumber = "+380730000000";
+
+const phoneNumber = '+380730000000';
 const RentCondition = ({ carCard }) => {
   const { rentalConditions, mileage, rentalPrice } = carCard;
   const objRentalCondit = parseRentalCondition(rentalConditions);
-  
+
   return (
     <RentConditionWrap>
       <RentConditionHead>Rental Conditions:</RentConditionHead>
@@ -28,15 +30,14 @@ const RentCondition = ({ carCard }) => {
         <RentConditionItem>{objRentalCondit.required}</RentConditionItem>
         <RentConditionItem>
           Mileage:
-          <RentConditValue>{mileage}</RentConditValue>
+          <RentConditValue>{numeral(mileage).format('0,0')}</RentConditValue>
         </RentConditionItem>
         <RentConditionItem>
           Price:
           <RentConditValue>{`${rentalPrice.slice(1)}$`}</RentConditValue>
         </RentConditionItem>
       </RentConditionRow1>
-      <RentConditionCallBtn href ={`tel:${phoneNumber}`}  >
-   
+      <RentConditionCallBtn href={`tel:${phoneNumber}`}>
         Rental car
       </RentConditionCallBtn>
     </RentConditionWrap>

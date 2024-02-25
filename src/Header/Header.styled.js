@@ -7,6 +7,7 @@ export const ContainerHeader = styled.div`
 `;
 
 export const NavLinkHeader = styled(NavLink)`
+
   display: inline-block;
   text-decoration: none;
   padding: 12px;
@@ -16,4 +17,8 @@ export const NavLinkHeader = styled(NavLink)`
   &.active {
     color: blue;
   }
+`;
+
+export const AddedBrandAuto = styled.button`
+ 
 `;

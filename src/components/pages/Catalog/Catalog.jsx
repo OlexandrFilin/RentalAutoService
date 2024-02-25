@@ -4,6 +4,7 @@ import { ContainerPage, LoadMoreBtn, WrapperCards } from './Catalog.styled';
 import { getAllCars } from 'services/getCars';
 import Card from 'components/card/Card';
 import ModalAbout from 'components/ModalAbout/modalAbout';
+import FilterForm from 'components/FilterForm/filterForm';
 //сторінка, що завантажуєтсья
 
 const Catalog = () => {
@@ -12,6 +13,7 @@ const Catalog = () => {
   const [loader, setLoader] = useState(false);
   const [isShowModal, setShowModal] = useState(false);
   const [choiseCard, setChoiseCard] = useState({});
+
   const addFildFavorites = data => {
     return data.map(car => {
       const cars = JSON.parse(localStorage.getItem('cars'));
@@ -19,7 +21,6 @@ const Catalog = () => {
       if (cars) {
         const findCar = cars.find(elem => elem.id === car.id);
         if (findCar) {
-          //car.isFavorite = findCar.isFavorite;
           return { ...car, isFavorite: findCar.isFavorite };
         }
       }
@@ -43,6 +44,7 @@ const Catalog = () => {
     }
     fetchData();
   }, [page]);
+  //якщо білше закінчуютья авто в базі перекидаємо на першу сторінку
   const hanlerLoadMore = () => {
     page + 1 < 4 ? setpage(page + 1) : setpage(1);
   };
@@ -93,33 +95,43 @@ const Catalog = () => {
       setShowModal(true);
     }
   };
-  
-const closeLearnMore = ()=>{
-  setShowModal(false);
-}
-  return loader ? (
-    <div>Завантаження ....</div>
-  ) : (
-    <ContainerPage>
-      {isShowModal && (
-        <ModalAbout carCard={{...choiseCard}} LernMore={hanlerLearnMore} closeLearnMore = {closeLearnMore}/>
-      )}
-      <WrapperCards>
-        {carsList.map(car => {
-          return (
-            <Card
-              key = {car.id}
-              handleToggle={handleToggle}
-              car={car}
-              hanlerLearnMore={hanlerLearnMore}
+
+  const closeLearnMore = () => {
+    setShowModal(false);
+  };
+  return (
+    <>
+      <FilterForm />
+      {loader ? (
+        <div>Завантаження ....</div>
+      ) : (
+        <ContainerPage>
+          {isShowModal && (
+            <ModalAbout
+              carCard={{ ...choiseCard }}
+              LernMore={hanlerLearnMore}
               closeLearnMore={closeLearnMore}
             />
-          );
-        })}
-      </WrapperCards>
-      <LoadMoreBtn onClick={hanlerLoadMore}>Load More</LoadMoreBtn>
-    </ContainerPage>
+          )}
+          <WrapperCards>
+            {carsList.map(car => {
+              return (
+                <Card
+                  key={car.id}
+                  handleToggle={handleToggle}
+                  car={car}
+                  hanlerLearnMore={hanlerLearnMore}
+                  closeLearnMore={closeLearnMore}
+                />
+              );
+            })}
+          </WrapperCards>
+          <LoadMoreBtn onClick={hanlerLoadMore}>Load More</LoadMoreBtn>
+        </ContainerPage>
+      )}
+    </>
   );
 };
 
 export default Catalog;
+
