@@ -14,7 +14,7 @@ import {
 } from './Card.styled';
 import { limitLengthModel, parseAddress } from 'services/parseDataCard';
 
-const Card = ({ car, handleToggle, handlerLearnMore}) => {
+const Card = ({ car, handleToggle, handlerLearnMore, isShowHeart }) => {
   const {
     id,
     isFavorite,
@@ -29,20 +29,22 @@ const Card = ({ car, handleToggle, handlerLearnMore}) => {
     engineSize,
   } = car;
   //витягуємо з рядка адреси країну та місто
-    const objAddress = parseAddress(address);
+  const objAddress = parseAddress(address);
   //щоб не ломався рядок опису авто, лімітуємо сумарну довжину виробник + модель
   const typeModel = limitLengthModel(model, make);
   return (
     <ContainerCard key={id}>
-      {isFavorite ? (
-        <HeartBlue onClick={() => handleToggle(id)} />
-      ) : (
-        <HeartWhite
-          onClick={() => {
-            handleToggle(id);
-          }}
-        />
-      )}
+      {isShowHeart &&
+        (isFavorite ? (
+          <HeartBlue onClick={() => handleToggle(id)} />
+        ) : (
+          <HeartWhite
+            onClick={() => {
+              handleToggle(id);
+            }}
+          />
+        ))}
+
       <ImgCar src={img} alt={model} />
 
       <AboutCarParagr>
@@ -71,7 +73,13 @@ const Card = ({ car, handleToggle, handlerLearnMore}) => {
         {` ${engineSize} `}
       </AddresParagr>
 
-      <LearnMoreBtn onClick={()=>{handlerLearnMore(id)}}   >Learn More</LearnMoreBtn>
+      <LearnMoreBtn
+        onClick={() => {
+          handlerLearnMore(id);
+        }}
+      >
+        Learn More
+      </LearnMoreBtn>
     </ContainerCard>
   );
 };

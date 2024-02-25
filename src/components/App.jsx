@@ -6,14 +6,15 @@ import { Route, Routes } from 'react-router-dom';
 
 export const App = () => {
   return (
-    <div className='wrapper'>
+    <div className="wrapper">
       <Header />
       <Routes>
-        <Route path="/" element={<Home />}>  </Route>
-          <Route path="/catalog" element={<Catalog />}></Route>
-          <Route path="/favorites" element={<Favorites />}></Route>
-          <Route path="*" element={<Home />}></Route>
-      
+        <Route path="/" element={<Home />}>
+          {' '}
+        </Route>
+        <Route path="/catalog" element={<Catalog />}></Route>
+        <Route path="/favorites" element={<Favorites />}></Route>
+        <Route path="*" element={<Home />}></Route>
       </Routes>
     </div>
   );

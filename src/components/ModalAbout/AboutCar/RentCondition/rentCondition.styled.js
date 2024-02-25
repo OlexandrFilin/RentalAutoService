@@ -40,5 +40,7 @@ export const RentConditionCallBtn = styled.a`
   line-height: 1.42857;
   color: #fff;
 
-  &:hover{ background-color: #0b44cd;}
+  &:hover {
+    background-color: #0b44cd;
+  }
 `;

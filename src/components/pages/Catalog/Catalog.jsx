@@ -132,7 +132,6 @@ const Catalog = () => {
     setShowModal(false);
   };
   const handleSetFilter = newfilter => {
-    console.log('newfilter', newfilter);
     setFilter(newfilter);
   };
   return (
@@ -145,7 +144,6 @@ const Catalog = () => {
           {isShowModal && (
             <ModalAbout
               carCard={{ ...choiseCard }}
-             // LernMore={hanlerLearnMore}
               closeLearnMore={closeLearnMore}
             />
           )}
@@ -156,6 +154,7 @@ const Catalog = () => {
                   key={car.id}
                   handleToggle={handleToggle}
                   car={car}
+                  isShowHeart={true}
                   handlerLearnMore={hanlerLearnMore}
                   closeLearnMore={closeLearnMore}
                 />

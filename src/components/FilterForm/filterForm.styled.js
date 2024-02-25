@@ -89,8 +89,8 @@ export const SearchBtn = styled.button`
   width: 136px;
   height: 48px;
   background: #3470ff;
-  margin-top:25px;
-  &:hover{
-     background: #0b44cd;;
+  margin-top: 25px;
+  &:hover {
+    background: #0b44cd;
   }
 `;

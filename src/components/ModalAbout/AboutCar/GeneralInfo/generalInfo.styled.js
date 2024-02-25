@@ -9,11 +9,8 @@ export const AboutCarParagr = styled.div`
   color: #121417;
   text-align: justify;
   margin-bottom: 24px;
-  
 `;
-export const AboutCarSpan = styled.span`
-
-`;
+export const AboutCarSpan = styled.span``;
 
 export const ModelCarSpan = styled.span`
   color: #3470ff;
@@ -24,13 +21,13 @@ export const AddresParagr = styled.p`
   font-size: 12px;
   line-height: 1.5;
   color: rgba(18, 20, 23, 0.5);
-  margin-bottom:4px;  
+  margin-bottom: 4px;
 `;
 export const DeskriptionPrgr = styled.p`
-font-family: "Manrope", sans-serif;
-font-weight: 400;
-font-size: 14px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
 
-line-height: 1.42857;
-color: #121417;
-`
+  line-height: 1.42857;
+  color: #121417;
+`;

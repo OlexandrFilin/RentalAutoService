@@ -10,22 +10,21 @@ import { getAllCars } from 'services/getCars';
 import { nanoid } from 'nanoid';
 
 const Header = () => {
-  
   //const FileName = '../sourseJson/makes.json';
   const handlerAddBrands = async () => {
     try {
-      const data = await getAllCars(); 
+      const data = await getAllCars();
       const brandsCars = data.map(elem => ({
         id: nanoid(),
         mrand: elem.make,
       }));
-      //await fs.writeFile(FileName, JSON.stringify(brandsCars)); 
-     console.log(JSON.stringify(brandsCars))
+      //await fs.writeFile(FileName, JSON.stringify(brandsCars));
+      console.log(JSON.stringify(brandsCars));
     } catch (error) {
       console.log('error', error);
     }
   };
- 
+
   return (
     <ContainerHeader className="container">
       <NavLinkHeader to="/"> Home</NavLinkHeader>

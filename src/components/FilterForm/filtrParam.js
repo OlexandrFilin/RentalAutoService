@@ -16,7 +16,7 @@ import {
 
 const FiltrParam = ({ changeBrand }) => {
   const uniqueBrands = [...new Set(brands.map(elem => elem.mrand))].sort();
-  
+
   return (
     <>
       <SelectWrap>

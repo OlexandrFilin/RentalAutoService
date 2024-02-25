@@ -14,7 +14,7 @@ const Favorites = () => {
   const filtrCarsFavorites = data => {
     const cars = JSON.parse(localStorage.getItem('cars'));
     return data.filter(elem => {
-      return cars.some(elemLS => (elemLS.id === elem.id) && elemLS.isFavorite);
+      return cars.some(elemLS => elemLS.id === elem.id && elemLS.isFavorite);
     });
   };
 
@@ -36,7 +36,7 @@ const Favorites = () => {
 
   const handlerLearnMore = id => {
     const chosenCar = carsList.find(car => car.id === id);
-    console.log('choisenCar', chosenCar)
+    console.log('choisenCar', chosenCar);
     if (chosenCar) {
       setChoiseCard(chosenCar);
       setShowModal(true);
@@ -53,28 +53,32 @@ const Favorites = () => {
         <div>Завантаження ....</div>
       ) : (
         <>
-        {carsList.length === 0 ?
-          (<FavoriteEmptyWrapp>To display the list, first select the cars you like.</FavoriteEmptyWrapp> ) :
-          (
-          <ContainerPage>
-            {isShowModal && (
-              <ModalAbout
-                carCard={{ ...choiseCard }}
-                //learnMore={hanlerLearnMore}
-                closeLearnMore={closeLearnMore}
-              />
-            )}
-            <WrapperCards>
-              {carsList.map(car => (
-                <Card
-                  key={car.id}
-                  car={car}
-                 handlerLearnMore={handlerLearnMore}
+          {carsList.length === 0 ? (
+            <FavoriteEmptyWrapp>
+              To display the list, first select the cars you like.
+            </FavoriteEmptyWrapp>
+          ) : (
+            <ContainerPage>
+              {isShowModal && (
+                <ModalAbout
+                  carCard={{ ...choiseCard }}
+                  //learnMore={hanlerLearnMore}
                   closeLearnMore={closeLearnMore}
                 />
-              ))}
-            </WrapperCards>
-          </ContainerPage>)}
+              )}
+              <WrapperCards>
+                {carsList.map(car => (
+                  <Card
+                    key={car.id}
+                    car={car}
+                    isShowHeart={false}
+                    handlerLearnMore={handlerLearnMore}
+                    closeLearnMore={closeLearnMore}
+                  />
+                ))}
+              </WrapperCards>
+            </ContainerPage>
+          )}
         </>
       )}
     </>

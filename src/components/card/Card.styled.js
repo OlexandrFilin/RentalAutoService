@@ -25,7 +25,7 @@ export const ContainerCard = styled.div`
   width: 274px;
   position: relative;
   display: block;
-  margin-bottom:63px;
+  margin-bottom: 63px;
 `;
 export const ImgCar = styled.img`
   border-radius: 14px;

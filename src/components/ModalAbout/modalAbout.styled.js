@@ -42,7 +42,7 @@ export const ImgCar = styled.img`
   width: 461px;
   height: 248px;
   background: #f3f3f2;
-   /* margin-left: auto;
+  /* margin-left: auto;
   margin-right: auto; */
   margin-bottom: 14px;
 `;

@@ -7,7 +7,6 @@ export const ContainerHeader = styled.div`
 `;
 
 export const NavLinkHeader = styled(NavLink)`
-
   display: inline-block;
   text-decoration: none;
   padding: 24px;
@@ -19,6 +18,4 @@ export const NavLinkHeader = styled(NavLink)`
   }
 `;
 
-export const AddedBrandAuto = styled.button`
- 
-`;
+export const AddedBrandAuto = styled.button``;
