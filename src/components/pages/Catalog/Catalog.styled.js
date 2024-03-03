@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ContainerPage = styled.div`
   padding: 50px 128px;
   width: 1440px;
-  height: 1928px;
+
 `;
 export const LoadMoreBtn = styled.button`
   font-family: 'Manrope', sans-serif;

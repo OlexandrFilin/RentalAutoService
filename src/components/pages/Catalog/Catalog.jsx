@@ -15,24 +15,27 @@ const Catalog = () => {
   const [isShowModal, setShowModal] = useState(false);
   const [choiseCard, setChoiseCard] = useState({});
   const [filter, setFilter] = useState({ brand: '' });
-  const containerRef = useRef(null);
+  const loadMoreRef = useRef();
 
   // Функція, яка автоматично прокручує контейнер до його кінця
   const scrollToBottom = () => {
+    // console.log(containerRef.current.scrollTop)
+    // console.log(containerRef.current.scrollHeight)
     //  containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    const loadMoreEl = loadMoreRef.current;
+    const rect =loadMoreEl.getBoundingClientRect();
+    console.log("rect ",rect)
+    
+    window.scrollTo({
+      bottom:rect.bottom,
+      byhavior:"smooth"
+    })
+    
   };
   useEffect(() => {
      setpage(1);
     // Викликаємо функцію прокрутки до кінця при завантаженні компонента
-    scrollToBottom();
-  }, []);
-
-  useEffect(() => {
-    console.log('containerкуа', containerRef)
-    if (containerRef.current) {
-      const scrollHeightValue = containerRef.current.scrollHeight;
-      console.log('Scroll Height:', scrollHeightValue);
-    }
+   // scrollToBottom();
   }, []);
 
 
@@ -78,7 +81,7 @@ const Catalog = () => {
   //якщо білше закінчуютья авто в базі перекидаємо на першу сторінку
   const hanlerLoadMore = () => {
     setpage(prevPage => prevPage += 1);
-    scrollToBottom();
+   
   };
   //шукаємо по id in localStorage та оновлюємо
   const UpdateLocalStorage = (car, isFavorite) => {
@@ -135,12 +138,12 @@ const Catalog = () => {
   };
   return (
     <>
-
+<button onClick={scrollToBottom}>scroll</button>
       <FilterForm handleSetFilter={handleSetFilter} />
       {loader ? (
         <div>Завантаження ....</div>
       ) : (
-        <ContainerPage>
+        <ContainerPage >
           {isShowModal && (
             <ModalAbout
               carCard={{ ...choiseCard }}
@@ -161,7 +164,7 @@ const Catalog = () => {
               );
             })}
           </WrapperCards>
-          <LoadMoreBtn onClick={hanlerLoadMore}>Load More</LoadMoreBtn>
+          <LoadMoreBtn ref={loadMoreRef}   onClick={hanlerLoadMore}>Load More</LoadMoreBtn>
         </ContainerPage>
       )}
     </>
