@@ -1,19 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ContainerPage, LoadMoreBtn, WrapperCards } from './Catalog.styled';
 
 import { getAllCars } from 'services/getCars';
 import Card from 'components/card/Card';
 import ModalAbout from 'components/ModalAbout/modalAbout';
 import FilterForm from 'components/FilterForm/filterForm';
+
 //сторінка, що завантажуєтсья
 
 const Catalog = () => {
   const [carsList, setCars] = useState([]);
-  const [page, setpage] = useState(1);
+  const [page, setpage] = useState(0);
   const [loader, setLoader] = useState(false);
   const [isShowModal, setShowModal] = useState(false);
   const [choiseCard, setChoiseCard] = useState({});
   const [filter, setFilter] = useState({ brand: '' });
+  const containerRef = useRef(null);
+
+  // Функція, яка автоматично прокручує контейнер до його кінця
+  const scrollToBottom = () => {
+    //  containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  };
+  useEffect(() => {
+     setpage(1);
+    // Викликаємо функцію прокрутки до кінця при завантаженні компонента
+    scrollToBottom();
+  }, []);
+
+  useEffect(() => {
+    console.log('containerкуа', containerRef)
+    if (containerRef.current) {
+      const scrollHeightValue = containerRef.current.scrollHeight;
+      console.log('Scroll Height:', scrollHeightValue);
+    }
+  }, []);
+
 
   const addFildFavorites = data => {
     return data.map(car => {
@@ -27,46 +48,23 @@ const Catalog = () => {
       return { ...car, isFavorite: false };
     });
   };
-
   useEffect(() => {
+
     async function fetchData() {
+
       try {
         setLoader(true);
         const data = await getAllCars(page);
-        const carsWithFavorites = addFildFavorites(data);
-        setCars(carsWithFavorites);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoader(false);
-      }
-    }
-    fetchData();
-  }, [page]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
+        let filteredArray;
         if (filter.brand) {
-          setLoader(true);
-          const data = await getAllCars();
-          let filteredArray = data;
           filteredArray = data.filter(elem => elem.make === filter.brand);
-          const carsWithFavorites = addFildFavorites(filteredArray);
-          setCars(carsWithFavorites);
         } else {
-          //якщо фільтр не встановлено, завантажуємо  сторінку повністю
-          try {
-            setLoader(true);
-            const data = await getAllCars(page);
-            const carsWithFavorites = addFildFavorites(data);
-            setCars(carsWithFavorites);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          } finally {
-            setLoader(false);
-          }
+          filteredArray = data;
         }
+
+        const carsWithFavorites = addFildFavorites(filteredArray);
+        // setCars(prevCarsList => prevCarsList.concat(carsWithFavorites));
+        setCars(prevCarsList => [...prevCarsList, ...carsWithFavorites]);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -74,11 +72,13 @@ const Catalog = () => {
       }
     }
     fetchData();
-  }, [filter, page]);
+
+  }, [page, filter.brand]);
 
   //якщо білше закінчуютья авто в базі перекидаємо на першу сторінку
   const hanlerLoadMore = () => {
-    page + 1 < 4 ? setpage(page + 1) : setpage(1);
+    setpage(prevPage => prevPage += 1);
+    scrollToBottom();
   };
   //шукаємо по id in localStorage та оновлюємо
   const UpdateLocalStorage = (car, isFavorite) => {
@@ -127,7 +127,6 @@ const Catalog = () => {
       setShowModal(true);
     }
   };
-
   const closeLearnMore = () => {
     setShowModal(false);
   };
@@ -136,6 +135,7 @@ const Catalog = () => {
   };
   return (
     <>
+
       <FilterForm handleSetFilter={handleSetFilter} />
       {loader ? (
         <div>Завантаження ....</div>

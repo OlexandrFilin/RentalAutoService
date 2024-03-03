@@ -6,16 +6,16 @@ axios.defaults.baseURL = baseUrl;
 
 const getAllCars = async nomPage => {
   let urlEnd;
-  if (nomPage){
-    const url = new URL(`${baseUrl}/adverts`); // Створюємо новий об'єкт URL для кожного запиту
-      url.searchParams.append('page', nomPage);
-      url.searchParams.append('limit', 12);
-      urlEnd= url.toString()
-  }else {
-    urlEnd =`${baseUrl}/adverts`;
+  // if (nomPage){
+  const url = new URL(`${baseUrl}/adverts`); // Створюємо новий об'єкт URL для кожного запиту
+  url.searchParams.append('page', nomPage);
+  url.searchParams.append('limit', 12);
+  urlEnd = url.toString()
+  // }else {
+  //   urlEnd =`${baseUrl}/adverts`;
 
-  }
-  
+  // }
+
 
   try {
     const response = await axios.get(urlEnd); // Потрібно передати рядок URL, а не об'єкт URL

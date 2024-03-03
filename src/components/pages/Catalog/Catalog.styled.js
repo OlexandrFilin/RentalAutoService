@@ -19,7 +19,7 @@ export const LoadMoreBtn = styled.button`
   margin-left: auto;
   margin-right: auto;
   margin-top: 63px;
-
+  overflow-y: auto;
   &:hover {
     color: #0b44cd;
   }
