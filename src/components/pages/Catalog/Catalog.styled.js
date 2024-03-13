@@ -25,7 +25,7 @@ export const LoadMoreBtn = styled.button`
   }
 `;
 
-export const WrapperCards = styled.div`
+export const WrapperCards = styled.ul`
   display: flex;
   column-gap: 29px;
   flex-wrap: wrap;

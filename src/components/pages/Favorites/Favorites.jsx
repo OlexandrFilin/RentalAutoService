@@ -4,6 +4,7 @@ import ModalAbout from 'components/ModalAbout/modalAbout';
 import Card from 'components/card/Card';
 import { getAllCars } from 'services/getCars';
 import { FavoriteEmptyWrapp } from './Favorites.styled';
+import { handleToggle } from 'services/tooggleFavorites';
 
 const Favorites = () => {
   const [loader, setLoader] = useState(false);
@@ -13,17 +14,20 @@ const Favorites = () => {
 
   const filtrCarsFavorites = data => {
     const cars = JSON.parse(localStorage.getItem('cars'));
+
     return data.filter(elem => {
       return cars.some(elemLS => elemLS.id === elem.id && elemLS.isFavorite);
     });
   };
 
   useEffect(() => {
+
     async function fetchData() {
       try {
         setLoader(true);
         const data = await getAllCars();
         const carsFavorites = filtrCarsFavorites(data);
+        console.log('carsFavorites', carsFavorites);
         setCars(carsFavorites);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -47,6 +51,9 @@ const Favorites = () => {
     setShowModal(false);
   };
 
+
+
+  
   return (
     <>
       {loader ? (
@@ -71,6 +78,7 @@ const Favorites = () => {
                   <Card
                     key={car.id}
                     car={car}
+                    handleToggle={()=>{handleToggle(car.id,setCars)}}
                     isShowHeart={false}
                     handlerLearnMore={handlerLearnMore}
                     closeLearnMore={closeLearnMore}

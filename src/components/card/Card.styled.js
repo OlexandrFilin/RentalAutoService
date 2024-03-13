@@ -3,25 +3,33 @@ import { FaRegHeart } from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa';
 import { ReactComponent as SeparatorSVG } from '../../Images/separator.svg';
 
-export const HeartBlue = styled(FaHeart)`
+
+export const HeartBtn = styled.button`
+ position: absolute;
+ right: 14px;
+  top: 14px;
+  padding:3px;
+  background-color: transparent; /* Встановлюємо прозорий колір фону */
+  border: none; /* Видаляємо рамку */
+  cursor: pointer; /* Змінюємо курсор при наведенні */
+`
+export const HeartBlueSvg = styled(FaHeart)`
   color: rgba(255, 255, 255, 0.8);
   color: #3470ff;
   width: 18px;
   height: 18px;
-  position: absolute;
-  right: 14px;
-  top: 14px;
+ 
+  
 `;
 
-export const HeartWhite = styled(FaRegHeart)`
+export const HeartWhiteSvg = styled(FaRegHeart)`
   color: rgba(255, 255, 255, 0.8);
   width: 18px;
   height: 18px;
-  position: absolute;
-  right: 14px;
-  top: 14px;
+
+
 `;
-export const ContainerCard = styled.div`
+export const ContainerCard = styled.li`
   width: 274px;
   position: relative;
   display: block;

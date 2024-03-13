@@ -5,6 +5,7 @@ import { getAllCars } from 'services/getCars';
 import Card from 'components/card/Card';
 import ModalAbout from 'components/ModalAbout/modalAbout';
 import FilterForm from 'components/FilterForm/filterForm';
+import { handleToggle } from 'services/tooggleFavorites';
 
 //сторінка, що завантажуєтсья
 
@@ -15,33 +16,41 @@ const Catalog = () => {
   const [isShowModal, setShowModal] = useState(false);
   const [choiseCard, setChoiseCard] = useState({});
   const [filter, setFilter] = useState({ brand: '' });
-  const loadMoreRef = useRef();
-
+  const [isShowLoadMore, setShowLoadMore] = useState(true);
+  //const loadMoreRef = useRef();
+  const containtrPageRef = useRef();
   // Функція, яка автоматично прокручує контейнер до його кінця
-  const scrollToBottom = () => {
-    // console.log(containerRef.current.scrollTop)
-    // console.log(containerRef.current.scrollHeight)
-    //  containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    const loadMoreEl = loadMoreRef.current;
-    const rect =loadMoreEl.getBoundingClientRect();
-    console.log("rect ",rect)
-    
-    window.scrollTo({
-      bottom:rect.bottom,
-      byhavior:"smooth"
-    })
-    
+  const scrollToBottom = (topDirect) => {
+     const containerRef = containtrPageRef.current;
+    const rect = containerRef.getBoundingClientRect();
+    let direction;
+    topDirect ?  direction = rect.top : direction = rect.bottom;
+       window.scrollTo({
+      top: direction,
+      behavior: 'smooth',
+    });
   };
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const scrollTimeOut = () => {
+  //   setTimeout(() => {
+  //     scrollToBottom();
+  //   }, 3000);
+  // };
   useEffect(() => {
-     setpage(1);
-    // Викликаємо функцію прокрутки до кінця при завантаженні компонента
-   // scrollToBottom();
+    setpage(1);
+ 
   }, []);
+  // useEffect(() => {
+  //   scrollTimeOut();
 
+  //   // Викликаємо функцію прокрутки до кінця при завантаженні компонента
+  //   //scrollTimeOut();
+  // }, [page, scrollTimeOut]);
 
   const addFildFavorites = data => {
+    //отримуєм з localStorage  записані там
+    const cars = JSON.parse(localStorage.getItem('cars'));
     return data.map(car => {
-      const cars = JSON.parse(localStorage.getItem('cars'));
       if (cars) {
         const findCar = cars.find(elem => elem.id === car.id);
         if (findCar) {
@@ -51,78 +60,42 @@ const Catalog = () => {
       return { ...car, isFavorite: false };
     });
   };
+
   useEffect(() => {
-
-    async function fetchData() {
-
-      try {
-        setLoader(true);
-        const data = await getAllCars(page);
-        let filteredArray;
-        if (filter.brand) {
-          filteredArray = data.filter(elem => elem.make === filter.brand);
-        } else {
-          filteredArray = data;
+    //щоб через strictMode не було два запити на бек page =0
+    if (page !== 0) {
+      console.log('111', 111);
+      async function fetchData() {
+        try {
+          setLoader(true);
+          const data = await getAllCars(page);
+          if (data.length < 12) {
+            setShowLoadMore(false);
+          }
+          let filteredArray;
+          if (filter.brand) {
+            filteredArray = data.filter(elem => elem.make === filter.brand);
+          } else {
+            filteredArray = data;
+          }
+          const carsWithFavorites = addFildFavorites(filteredArray);
+          setCars(prevCarsList => {
+            return [...prevCarsList, ...carsWithFavorites];
+          });
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setLoader(false);
         }
-
-        const carsWithFavorites = addFildFavorites(filteredArray);
-        // setCars(prevCarsList => prevCarsList.concat(carsWithFavorites));
-        setCars(prevCarsList => [...prevCarsList, ...carsWithFavorites]);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoader(false);
       }
+      fetchData();
     }
-    fetchData();
-
   }, [page, filter.brand]);
 
-  //якщо білше закінчуютья авто в базі перекидаємо на першу сторінку
   const hanlerLoadMore = () => {
-    setpage(prevPage => prevPage += 1);
-   
+    setpage(prevPage => (prevPage += 1));
   };
-  //шукаємо по id in localStorage та оновлюємо
-  const UpdateLocalStorage = (car, isFavorite) => {
-    //оримуємо збережені в  localStorage фаворити
-    let carsLocal = JSON.parse(localStorage.getItem('cars'));
-    let findCar;
-    //якщо в localStorage щось збережено шукаємо серед збереженого наш
-    if (carsLocal) {
-      findCar = carsLocal.find(carLocal => carLocal.id === car.id);
-    } else {
-      carsLocal = [];
-    }
-    if (findCar) {
-      const newCarsLocal = carsLocal.map(carLocal => {
-        if (carLocal.id === car.id) {
-          //повертаємо оновлене елемент з оновленим значенням фаворита
-          return { ...carLocal, isFavorite };
-        } else {
-          return carLocal;
-        }
-      });
-      //записуємо з новим значенням фаворитів
-      localStorage.setItem('cars', JSON.stringify(newCarsLocal));
-    } else {
-      carsLocal.push({ id: car.id, isFavorite });
-      localStorage.setItem('cars', JSON.stringify(carsLocal));
-    }
-  };
-  const handleToggle = id => {
-    setCars(prevCarsList =>
-      prevCarsList.map(car => {
-        if (car.id === id) {
-          //шукаємо по id in localStorage та оновлюємо
-          UpdateLocalStorage(car, !car.isFavorite);
-          return { ...car, isFavorite: !car.isFavorite };
-        } else {
-          return car;
-        }
-      })
-    );
-  };
+  
   const hanlerLearnMore = id => {
     const chosenCar = carsList.find(car => car.id === id);
     if (chosenCar) {
@@ -138,12 +111,12 @@ const Catalog = () => {
   };
   return (
     <>
-<button onClick={scrollToBottom}>scroll</button>
+      <button onClick={()=>{scrollToBottom(false)}}>scroll</button>
       <FilterForm handleSetFilter={handleSetFilter} />
       {loader ? (
         <div>Завантаження ....</div>
       ) : (
-        <ContainerPage >
+        <ContainerPage ref={containtrPageRef}>
           {isShowModal && (
             <ModalAbout
               carCard={{ ...choiseCard }}
@@ -155,16 +128,20 @@ const Catalog = () => {
               return (
                 <Card
                   key={car.id}
-                  handleToggle={handleToggle}
+                  handleToggle={()=>{handleToggle(car.id,setCars)}}
                   car={car}
-                  isShowHeart={true}
                   handlerLearnMore={hanlerLearnMore}
                   closeLearnMore={closeLearnMore}
                 />
               );
             })}
           </WrapperCards>
-          <LoadMoreBtn ref={loadMoreRef}   onClick={hanlerLoadMore}>Load More</LoadMoreBtn>
+          <button onClick={()=>{scrollToBottom(true)}}>scroll</button>
+          {isShowLoadMore && (
+            <LoadMoreBtn onClick={hanlerLoadMore}>
+              Load More
+            </LoadMoreBtn>
+          )}
         </ContainerPage>
       )}
     </>

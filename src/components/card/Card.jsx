@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   ContainerCard,
-  HeartBlue,
-  HeartWhite,
+  HeartBlueSvg,
+  HeartWhiteSvg,
   ImgCar,
   AboutCarParagr,
   Separator,
@@ -11,10 +11,11 @@ import {
   AboutCarSpan,
   AddresParagr,
   LearnMoreBtn,
+  HeartBtn,
 } from './Card.styled';
 import { limitLengthModel, parseAddress } from 'services/parseDataCard';
 
-const Card = ({ car, handleToggle, handlerLearnMore, isShowHeart }) => {
+const Card = ({ car, handleToggle, handlerLearnMore }) => {
   const {
     id,
     isFavorite,
@@ -34,16 +35,15 @@ const Card = ({ car, handleToggle, handlerLearnMore, isShowHeart }) => {
   const typeModel = limitLengthModel(model, make);
   return (
     <ContainerCard key={id}>
-      {isShowHeart &&
-        (isFavorite ? (
-          <HeartBlue onClick={() => handleToggle(id)} />
-        ) : (
-          <HeartWhite
-            onClick={() => {
-              handleToggle(id);
-            }}
-          />
-        ))}
+      {isFavorite ? (
+        <HeartBtn type="button" onClick={() => handleToggle(id)}>
+          <HeartBlueSvg />
+        </HeartBtn>
+      ) : (
+        <HeartBtn type="button" onClick={() => handleToggle(id)}>
+          <HeartWhiteSvg />
+        </HeartBtn>
+      )}
 
       <ImgCar src={img} alt={model} />
 
