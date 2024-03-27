@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ContainerPage, LoadMoreBtn, WrapperCards } from './Catalog.styled';
 
 import { getAllCars } from 'services/getCars';
 import Card from 'components/card/Card';
 import ModalAbout from 'components/ModalAbout/modalAbout';
 import FilterForm from 'components/FilterForm/filterForm';
-import { handleToggle } from 'services/tooggleFavorites';
+import { addFildFavorites } from 'components/addFilteFavorites';
 
 //сторінка, що завантажуєтсья
 
@@ -47,24 +48,12 @@ const Catalog = () => {
   //   //scrollTimeOut();
   // }, [page, scrollTimeOut]);
 
-  const addFildFavorites = data => {
-    //отримуєм з localStorage  записані там
-    const cars = JSON.parse(localStorage.getItem('cars'));
-    return data.map(car => {
-      if (cars) {
-        const findCar = cars.find(elem => elem.id === car.id);
-        if (findCar) {
-          return { ...car, isFavorite: findCar.isFavorite };
-        }
-      }
-      return { ...car, isFavorite: false };
-    });
-  };
+ 
 
   useEffect(() => {
     //щоб через strictMode не було два запити на бек page =0
     if (page !== 0) {
-      console.log('111', 111);
+      //console.log('111', 111);
       async function fetchData() {
         try {
           setLoader(true);
@@ -109,6 +98,8 @@ const Catalog = () => {
   const handleSetFilter = newfilter => {
     setFilter(newfilter);
   };
+ 
+  const modalRoot = document.querySelector("#root-modal");
   return (
     <>
       <button onClick={()=>{scrollToBottom(false)}}>scroll</button>
@@ -117,18 +108,20 @@ const Catalog = () => {
         <div>Завантаження ....</div>
       ) : (
         <ContainerPage ref={containtrPageRef}>
-          {isShowModal && (
+          {isShowModal && createPortal(
             <ModalAbout
               carCard={{ ...choiseCard }}
               closeLearnMore={closeLearnMore}
-            />
+            />,modalRoot
           )}
           <WrapperCards>
             {carsList.map(car => {
               return (
                 <Card
                   key={car.id}
-                  handleToggle={()=>{handleToggle(car.id,setCars)}}
+                  setCars={setCars}
+                  carsList={carsList}
+                  // handleToggle={()=>{handleToggle(car.id,setCars)}}
                   car={car}
                   handlerLearnMore={hanlerLearnMore}
                   closeLearnMore={closeLearnMore}

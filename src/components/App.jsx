@@ -1,7 +1,7 @@
 import Header from 'Header/Header';
-import Catalog from './pages/Catalog/Catalog';
-import Favorites from './pages/Favorites/Favorites';
-import Home from './pages/Home/Home';
+import Catalog from '../pages/Catalog/Catalog';
+import Favorites from '../pages/Favorites/Favorites';
+import Home from '../pages/Home/Home';
 import { Route, Routes } from 'react-router-dom';
 
 export const App = () => {
@@ -13,6 +13,7 @@ export const App = () => {
           {' '}
         </Route>
         <Route path="/catalog" element={<Catalog />}></Route>
+        <Route path="/catalog/:id" element={<Catalog />}></Route>
         <Route path="/favorites" element={<Favorites />}></Route>
         <Route path="*" element={<Home />}></Route>
       </Routes>

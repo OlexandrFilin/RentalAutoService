@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import travelImage from '../../../Images/travel2.jpg';
+import travelImage from '../../Images/travel2.jpg'
 
 export const HeroHome = styled.section`
   margin-top: 20px;

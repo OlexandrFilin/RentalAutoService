@@ -25,16 +25,68 @@ const UpdateLocalStorage = (car, isFavorite) => {
       localStorage.setItem('cars', JSON.stringify(carsLocal));
     }
   };
+//  function newList(prList){
+//   return (
+//     prList.map(car => {
+
+//       if (car.id === id) {
+
+//         //шукаємо по id in localStorage та оновлюємо
+//         UpdateLocalStorage(car, !car.isFavorite);
+        
+//         return { ...car, isFavorite: !car.isFavorite };
+//       } else {
+//         return car;
+//       }
+//     }
+//   )
+// const changeList = (prList,id)=>{
+//   console.log('prList', prList)
+//  return prList.map(car => {
+
+//       if (car.id === id) {
+
+//         //шукаємо по id in localStorage та оновлюємо
+//         UpdateLocalStorage(car, !car.isFavorite);
+        
+//         return { ...car, isFavorite: !car.isFavorite };
+//       } else {
+//         return car;
+//       }
+//     })
+
+//   }
+  //setCars -колбек фукнція оновлення масиву
   export const handleToggle = (id,setCars) => {
-    setCars(prevCarsList =>
-      prevCarsList.map(car => {
-        if (car.id === id) {
-          //шукаємо по id in localStorage та оновлюємо
-          UpdateLocalStorage(car, !car.isFavorite);
-          return { ...car, isFavorite: !car.isFavorite };
-        } else {
-          return car;
-        }
-      })
-    );
+    setCars(
+      
+      (prList)=>{
+        console.log('prList', prList)
+        const newList = prList.map(car => {
+
+      if (car.id === id) {
+
+        //шукаємо по id in localStorage та оновлюємо
+        UpdateLocalStorage(car, !car.isFavorite);
+        
+        return { ...car, isFavorite: !car.isFavorite };
+      } else {
+        return car;
+      }
+    }
+          
+      )
+      console.log('newList', newList)
+return [...newList]
+  }
+    )
+//     const ar = [...carListNew,{id:-1}] ;
+//     console.log('ar', ar)
+//   setCars( ar);
+// const ar2 = [...carListNew] ;
+//     console.log('ar2', ar2)
+// setCars([...carListNew]  );
+ // setCars(...carList,{});
+
+
   };
